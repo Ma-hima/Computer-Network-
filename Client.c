@@ -26,6 +26,7 @@ int main()
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
 
+<<<<<<< HEAD
     inet_pton(AF_INET, "127.0.0.1",
               &serv_addr.sin_addr);
 
@@ -62,3 +63,28 @@ int main()
 
     return 0;
 }
+=======
+    // Convert IPv4 address from text to binary
+    if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+        perror("invalid address");
+        return -1;
+    }
+
+    // Connect to server
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        perror("connection failed");
+        return -1;
+    }
+
+    // Send message
+    send(sock, "Hello from client!", strlen("Hello from client!"), 0);
+    printf("Message sent\n");
+
+    // Receive response
+    read(sock, buffer, 1024);
+    printf("Server says: %s\n", buffer);
+
+    close(sock);
+    return 0;
+}
+>>>>>>> e7f6de095cb0df4f918d77f678d3a5c2f2f25507
